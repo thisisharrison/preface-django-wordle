@@ -49,7 +49,10 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "wordle_app",
+    "wordle_account",
 ]
+
+AUTH_USER_MODEL = "wordle_account.CustomUser"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
