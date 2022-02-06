@@ -1,0 +1,15 @@
+<header>
+    <h1>
+        <a href="{% url 'wordle_app:homepage' %}"> PREFACE WORDLE </a>
+    </h1>
+    <h5>powered by Django</h5>
+    <div class="header-auth">
+        {% if user.is_authenticated %}
+        <a href="">{{ user.username }}'s stats</a>
+        <a href="{% url 'logout' %}">Logout</a>
+        {% else %}
+        <a href="{% url 'signup' %}">Signup</a>
+        <a href="{% url 'login' %}">Login</a>
+        {% endif %}
+    </div>
+</header>

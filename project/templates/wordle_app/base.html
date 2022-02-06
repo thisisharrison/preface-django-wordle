@@ -11,8 +11,9 @@
     </head>
     <body class="nightmode">
         <div class="container">
-            <h1>PREFACE WORDLE</h1>
-            <h5>powered by Django</h5>
+            <!-- Header -->
+            {% include 'wordle_app/header.html' %}
+            <!-- End of header -->
             {% block body %}
             <!-- Game goes here -->
             {% endblock %}

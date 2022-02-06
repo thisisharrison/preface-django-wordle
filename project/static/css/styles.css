@@ -109,7 +109,10 @@ h1 {
     color: var(--tile-text-color);
 }
 
-h5 {
+h2,
+h5,
+a,
+form {
     color: var(--color-tone-2);
 }
 
@@ -137,5 +140,50 @@ h5 {
 }
 
 .container {
+    max-width: var(--game-max-width);
+    margin: 0 auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border-bottom: 1px solid var(--color-tone-4);
+    margin-bottom: 2rem;
+}
+
+header h1 {
+    font-weight: 700;
+    font-size: 36px;
+    letter-spacing: 0.2rem;
+    text-transform: uppercase;
     text-align: center;
+    margin-bottom: 0;
+}
+
+header h1 a {
+    text-decoration: none;
+    color: inherit;
+}
+
+header h1 a:visited {
+    text-decoration: none;
+    color: inherit;
+}
+
+.header-auth {
+    margin-bottom: 1rem;
+}
+
+.header-auth a {
+    color: var(--color-tone-2);
+    font-size: 0.8rem;
+}
+
+h5 {
+    text-align: center;
+    margin-top: 0;
 }

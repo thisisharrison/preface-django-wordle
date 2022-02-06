@@ -1,0 +1,18 @@
+<!-- Extend template -->
+{% extends 'wordle_app/base.html' %}
+<!-- Block begins -->
+{% block body %}
+
+<h2>Log In</h2>
+
+<form method="post">
+    <!-- token -->
+    {% csrf_token %}
+    <!-- form -->
+    {{form.as_p}}
+    <!-- submit -->
+    <input type="submit" value="Log In" />
+</form>
+
+<!-- End block -->
+{% endblock %}
