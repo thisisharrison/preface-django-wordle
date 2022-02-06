@@ -1,0 +1,22 @@
+<!-- Extend template -->
+{% extends 'wordle_app/base.html' %}
+<!-- Block begins -->
+{% block body %}
+
+<!-- Format the table -->
+<table>
+    {% for row in '012345'|make_list %}
+    <tr>
+        {% for col in '01234'|make_list %}
+        <td>
+            <div class="tile">
+                <!-- {{ forloop.counter }} -->
+                <input type="text" value="A" />
+            </div>
+        </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+<!-- End block -->
+{% endblock %}
