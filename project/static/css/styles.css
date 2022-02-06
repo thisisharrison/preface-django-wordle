@@ -140,6 +140,10 @@ form {
     box-sizing: border-box;
 }
 
+.tile input:focus {
+    outline: none;
+}
+
 .container {
     max-width: var(--game-max-width);
     margin: 0 auto;
