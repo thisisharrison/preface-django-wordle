@@ -106,6 +106,21 @@ td {
     color: var(--tile-text-color);
 }
 
+td.present {
+    background-color: var(--color-present);
+    border-color: var(--color-present);
+}
+
+td.correct {
+    background-color: var(--color-correct);
+    border-color: var(--color-correct);
+}
+
+td.absent {
+    background-color: var(--color-absent);
+    border-color: var(--color-absent);
+}
+
 h1 {
     color: var(--tile-text-color);
 }
