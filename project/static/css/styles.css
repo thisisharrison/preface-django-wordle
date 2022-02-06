@@ -98,6 +98,7 @@ body {
 table {
     margin-left: auto;
     margin-right: auto;
+    border-spacing: 5px;
 }
 
 td {
