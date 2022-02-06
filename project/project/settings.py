@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "wordle_app",
     "wordle_account",
+    "wordle_word",
 ]
 
 AUTH_USER_MODEL = "wordle_account.CustomUser"
