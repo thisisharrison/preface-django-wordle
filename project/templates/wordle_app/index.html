@@ -17,6 +17,20 @@
         {% endfor %}
     </tr>
     {% endfor %}
+    <tr>
+        {% for type in types %}
+        <td class="{{ type }}">
+            <div class="tile">
+                <input type="text" value="A" maxlength="1" />
+            </div>
+        </td>
+        {% endfor %}
+    </tr>
 </table>
+<form action="{% url 'wordle_app:attempt' game.id %}" method="post">
+    {% csrf_token %}
+    <input type="text" name="attempts" />
+    <input type="submit" value="Try" />
+</form>
 <!-- End block -->
 {% endblock %}

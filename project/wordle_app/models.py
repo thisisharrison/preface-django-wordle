@@ -2,6 +2,7 @@ from datetime import timezone
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
+from datetime import timedelta
 from django.core.validators import MinValueValidator, MaxValueValidator
 from wordle_word.models import Word
 import pdb
@@ -23,9 +24,17 @@ class Game(models.Model):
     # Adding this to your DateTime field will add a timestamp as soon as the record is created as well as when the record is updated.
     updated_at = models.DateTimeField(auto_now=True)
 
+    # Game Detail view
     def get_absolute_url(self):
-        # TODO
-        pass
+        from django.urls import reverse
+
+        return reverse("wordle_app:game", kwargs={"pk": self.pk})
+
+    def is_valid(self):
+        diff = self.created_at.date() - timezone.localdate()
+        if diff.days > 0:
+            return False
+        return True
 
     @classmethod
     def start_game(cls, request):
@@ -39,3 +48,6 @@ class Game(models.Model):
         # TODO
         pdb.set_trace()
         pass
+
+    def __str__(self) -> str:
+        return f"{self.player}: {self.word}: {self.attempts}"
