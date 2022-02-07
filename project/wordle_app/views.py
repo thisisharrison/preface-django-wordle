@@ -1,7 +1,9 @@
 import pdb
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic.edit import UpdateView
+from django.contrib import messages
 from .models import Game
 
 # Create your views here.
@@ -34,10 +36,15 @@ class GameUpdateView(UpdateView):
         prefix = self.object.attempts + "," if self.object.attempts else ""
         request.POST["attempts"] = prefix + request.POST["attempts"]
 
-        # TODO: Validate when more than 5 attempts
-        print(request.POST["attempts"])
         return super(GameUpdateView, self).post(request, *args, **kwargs)
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().get(request, *args, **kwargs)
+
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        if response.status_code is not 200 or form.errors:
+            return self.render_to_response(
+                self.get_context_data(form=form, errors=form.errors)
+            )
