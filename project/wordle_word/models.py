@@ -1,43 +1,26 @@
+from datetime import timedelta
+import pdb
 from django.db import models
-from django.utils import timezone
-from random import sample
+from django.utils import timezone, formats
+from random import shuffle
 import csv
+
 
 # Create your models here.
 
 
 class Word(models.Model):
     word = models.CharField(unique=True, max_length=5)
-    published_at = models.DateTimeField(null=True)
+    published_at = models.DateField(null=True)
 
     def __str__(self) -> str:
-        return self.word + " " + "published_at: " + str(self.published_at)
+        return f"{self.word} {formats.date_format(self.published_at) if self.published_at else ''}"
 
     @classmethod
     def todays_word(cls):
-        current_time = timezone.now()
-        last = Word.last_word()
-        last_time = last.published_at
-        diff = current_time - last_time
-
-        # 60 second * 60 minutes * 24 hours
-        # if diff.seconds < 60 * 60 * 24:
-        # For easy testing, lower to 120 second
-        if diff.seconds < 60:
-            return last
-        else:
-            return Word.generate_word()
-
-    @classmethod
-    def generate_word(cls):
-        all = Word.objects.filter(published_at__isnull=True)
-        word = sample(list(all), 1)[0]
-        Word.objects.filter(pk=word.id).update(published_at=timezone.now())
+        today = timezone.localdate()
+        word = Word.objects.get(published_at__exact=today)
         return word
-
-    @classmethod
-    def last_word(cls):
-        return Word.objects.order_by("-published_at")[0]
 
     # You will be fired if you use this!!!
     # But when you do use it, expect it to take some time
@@ -45,10 +28,23 @@ class Word(models.Model):
     def dangerously_reset(cls):
         # Delete all records
         Word.objects.all().delete()
+
         # Seed database
         file = open("wordle_word/seed.csv")
         csvreader = csv.reader(file)
-        for word in csvreader:
-            entry = Word.objects.create(word=word[0].upper())
+
+        # To shuffle save words to list first
+        words = []
+        for row in csvreader:
+            words.append(row[0].upper())
+
+        shuffle(words)
+
+        # Get today's date and increment by 1
+        start_date = timezone.localdate()
+        for i, word in enumerate(words):
+            published_date = start_date + timedelta(days=i)
+            entry = Word.objects.create(word=word, published_at=published_date)
             entry.save()
+
         print("seeded DB")
