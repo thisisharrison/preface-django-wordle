@@ -1,0 +1,38 @@
+<table>
+    {% if attempts_list %} {% for attempt in attempts_list %}
+    <tr>
+        {% for char, class in attempt %}
+        <td class="{{ class }}">
+            <div class="tile">
+                <input type="text" value="{{char}}" maxlength="1" />
+            </div>
+        </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    <!--  -->
+    {% else %}
+    <!--  -->
+    {% for row in '012345'|make_list %}
+    <tr>
+        {% for col in '01234'|make_list %}
+        <td>
+            <div class="tile">
+                <!-- {{ forloop.counter }} -->
+                <input type="text" value="A" maxlength="1" />
+            </div>
+        </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    <tr>
+        {% for type in types %}
+        <td class="{{ type }}">
+            <div class="tile">
+                <input type="text" value="A" maxlength="1" />
+            </div>
+        </td>
+        {% endfor %}
+    </tr>
+    {% endif %}
+</table>

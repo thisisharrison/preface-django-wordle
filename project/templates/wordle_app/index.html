@@ -3,41 +3,18 @@
 <!-- Block begins -->
 {% block body %}
 
-<!-- Format the table -->
-<table>
-    {% for row in '012345'|make_list %}
-    <tr>
-        {% for col in '01234'|make_list %}
-        <td>
-            <div class="tile">
-                <!-- {{ forloop.counter }} -->
-                <input type="text" value="A" maxlength="1" />
-            </div>
-        </td>
-        {% endfor %}
-    </tr>
-    {% endfor %}
-    <tr>
-        {% for type in types %}
-        <td class="{{ type }}">
-            <div class="tile">
-                <input type="text" value="A" maxlength="1" />
-            </div>
-        </td>
-        {% endfor %}
-    </tr>
-</table>
+<!-- TODO: Remove after test -->
 <form action="{% url 'wordle_app:attempt' game.id %}" method="post">
     {% csrf_token %}
     <input type="text" name="attempts" />
     <input type="submit" value="Try" />
 </form>
 
-<!-- Refactor to toast -->
+<!-- TODO: Refactor to toast -->
 <div style="color: white">{{errors}}</div>
 
-<!-- For testing now -->
-<div style="color: white">{{attempts_list}}</div>
+<!-- Format the table -->
+{% include 'wordle_app/table.html' %}
 
 <!-- Keyboard -->
 {% include 'wordle_app/keyboard.html' %}
