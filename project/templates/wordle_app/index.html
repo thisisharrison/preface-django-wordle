@@ -37,17 +37,10 @@
 <div style="color: white">{{errors}}</div>
 
 <!-- For testing now -->
-<div style="color: white">attempts_list</div>
+<div style="color: white">{{attempts_list}}</div>
 
-<div id="keyboard" style="color: white">
-    {% for row in keyboard_list %}
-    <div class="row">
-        {% for char, class in row.items %}
-        <button>{{char}} {{class}}</button>
-        {% endfor %}
-    </div>
-    {% endfor %}
-</div>
+<!-- Keyboard -->
+{% include 'wordle_app/keyboard.html' %}
 
 <!-- End block -->
 {% endblock %}
