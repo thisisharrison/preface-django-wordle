@@ -31,7 +31,7 @@ class Game(models.Model):
         return reverse("wordle_app:game", kwargs={"pk": self.pk})
 
     def is_valid(self):
-        diff = self.created_at.date() - timezone.localdate()
+        diff = timezone.localdate() - self.created_at.date()
         if diff.days > 0:
             return False
         return True
