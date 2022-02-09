@@ -140,7 +140,8 @@ form {
     align-items: center;
 }
 
-.tile input {
+.tile input,
+.tile span {
     width: 100%;
     border: none;
     background: transparent;
