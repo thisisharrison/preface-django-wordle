@@ -3,13 +3,6 @@
 <!-- Block begins -->
 {% block body %}
 
-<!-- TODO: Remove after test -->
-<form action="{% url 'wordle_app:attempt' game.id %}" method="post">
-    {% csrf_token %}
-    <input type="text" name="attempts" />
-    <input type="submit" value="Try" />
-</form>
-
 <!-- TODO: Refactor to toast -->
 <div style="color: white">{{errors}}</div>
 

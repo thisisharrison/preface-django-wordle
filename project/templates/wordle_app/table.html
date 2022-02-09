@@ -14,7 +14,6 @@
     {% endfor %}
     <!--  -->
     {% endif %}
-
     <!--  -->
     {% if remaining_attempts %}
     <!--  -->
@@ -22,13 +21,7 @@
     <tr>
         {% if row is 0 %}
         <!--  -->
-        {% for i in '01234'|make_list %}
-        <td>
-            <div class="tile">
-                <input type="text" value="{{char}}" maxlength="1" />
-            </div>
-        </td>
-        {% endfor %}
+        {% include "wordle_app/table_form.html" %}
         <!--  -->
         {% else %}
         <!--  -->

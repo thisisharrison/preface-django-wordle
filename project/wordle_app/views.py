@@ -4,6 +4,7 @@ from django.shortcuts import redirect, render
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic.edit import UpdateView
 from django.contrib import messages
+
 from .models import Game
 from .utils import transform_data
 
@@ -52,8 +53,12 @@ class GameUpdateView(UpdateView):
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         request.POST = request.POST.copy()
+        attempt = ""
+        for k, v in request.POST.items():
+            if "char" in k:
+                attempt += v
         prefix = self.object.attempts + "," if self.object.attempts else ""
-        request.POST["attempts"] = prefix + request.POST["attempts"]
+        request.POST["attempts"] = prefix + attempt
         # TODO: Increment tries
 
         return super(GameUpdateView, self).post(request, *args, **kwargs)
