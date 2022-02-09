@@ -1,3 +1,4 @@
+{% load static %}
 <style>
     /* https://www.powerlanguage.co.uk/wordle/ */
     :host {
@@ -91,3 +92,5 @@
     </div>
     {% endfor %}
 </div>
+
+<script src="{% static 'javascript/keyboard.js' %}"></script>
