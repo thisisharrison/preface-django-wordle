@@ -1,5 +1,6 @@
 from functools import reduce
 from collections import OrderedDict
+import pdb
 
 
 def word_to_word_dict(word):
@@ -12,6 +13,9 @@ def word_to_word_dict(word):
 def attempts_to_list(attempts, word, word_dict):
     attempts_list = []
     attempts = list(map(lambda word: list(word), attempts.split(",")))
+
+    if len(attempts[0]) == 0:
+        return attempts_list
 
     for attempt in attempts:
         row = []
@@ -41,7 +45,7 @@ def attempts_to_unique_dict(attempts_list):
 
 
 def keyboard_to_list(unique_dict):
-    KEYBOARD = ["QWERTY", "ASDFGHJKL", "ZXCVBNM"]
+    KEYBOARD = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"]
     keyboard_list = []
 
     for row in KEYBOARD:
