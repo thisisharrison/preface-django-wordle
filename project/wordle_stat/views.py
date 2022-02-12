@@ -27,7 +27,7 @@ def stat(request):
     stat_context["played"] = player.count()
 
     won = player.filter(won=True)
-    stat_context["win_rate"] = won.count() / stat_context["played"]
+    stat_context["win_rate"] = (won.count() / stat_context["played"]) * 100
 
     # https://stackoverflow.com/questions/37205793/django-values-list-vs-values
     wins = list(won.values_list("tries", flat=True))

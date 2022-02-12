@@ -14,7 +14,9 @@
     <body class="">
         <div class="container">
             <!-- Header -->
-            {% include 'wordle_app/header.html' %}
+            {% block header %}
+            <!--  -->
+            {% endblock %}
             <!-- End of header -->
             {% block body %}
             <!-- Game goes here -->

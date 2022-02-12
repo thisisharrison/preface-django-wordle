@@ -1,1 +1,65 @@
-{{stat}}
+<!-- Extend template -->
+{% extends 'wordle_app/base.html' %}
+<!--  -->
+{% block body %}
+<!--  -->
+{% include 'wordle_stat/_index_style.html' %}
+<!--  -->
+
+<h1>Statistics</h1>
+
+<p>{{stat}}</p>
+
+<div id="statistics">
+    <div class="statistic-container">
+        <div class="statistic">{{stat.played}}</div>
+        <div class="label">Played</div>
+    </div>
+
+    <div class="statistic-container">
+        <div class="statistic">{{ stat.win_rate|floatformat:"0" }}</div>
+        <div class="label">Win %</div>
+    </div>
+
+    <div class="statistic-container">
+        <div class="statistic">2</div>
+        <div class="label">Current Streak</div>
+    </div>
+
+    <div class="statistic-container">
+        <div class="statistic">2</div>
+        <div class="label">Max Streak</div>
+    </div>
+</div>
+<h1>Guess Distribution</h1>
+<div id="guess-distribution">
+    {% for i in '123456'|make_list %}
+
+    <div class="graph-container">
+        <div class="guess">{{ forloop.counter }}</div>
+        <div class="graph">
+            <div class="graph-bar align-right highlight" style="width: 100%">
+                <div class="num-guesses">{{forloop.counter}}</div>
+            </div>
+        </div>
+    </div>
+
+    {% endfor %}
+</div>
+<div class="footer">
+    <div class="countdown">
+        <h1>Next WORDLE</h1>
+        <div id="timer">
+            <div class="statistic-container">
+                <div class="statistic timer">
+                    <countdown-timer></countdown-timer>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="share">
+        <button id="share-button">Share <game-icon icon="share"></game-icon></button>
+    </div>
+</div>
+
+{% endblock %}
