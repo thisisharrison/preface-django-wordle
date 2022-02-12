@@ -8,8 +8,6 @@
 
 <h1>Statistics</h1>
 
-<p>{{stat}}</p>
-
 <div id="statistics">
     <div class="statistic-container">
         <div class="statistic">{{stat.played}}</div>
@@ -22,30 +20,40 @@
     </div>
 
     <div class="statistic-container">
-        <div class="statistic">2</div>
+        <div class="statistic">{{stat.current_streak}}</div>
         <div class="label">Current Streak</div>
     </div>
 
     <div class="statistic-container">
-        <div class="statistic">2</div>
+        <div class="statistic">{{stat.max_streak}}</div>
         <div class="label">Max Streak</div>
     </div>
 </div>
+
 <h1>Guess Distribution</h1>
 <div id="guess-distribution">
-    {% for i in '123456'|make_list %}
+    {% for k, v in stat.distribution.items %}
 
     <div class="graph-container">
-        <div class="guess">{{ forloop.counter }}</div>
+        <div class="guess">{{ k }}</div>
         <div class="graph">
-            <div class="graph-bar align-right highlight" style="width: 100%">
-                <div class="num-guesses">{{forloop.counter}}</div>
+            {% widthratio v max_value 100 as width %}
+            <!--  -->
+            {% if width != '0' %}
+            <div class="graph-bar align-right highlight" style="width: {{width}}%">
+                <div class="num-guesses">{{v}}</div>
             </div>
+            {% else %}
+            <div class="graph-bar align-right highlight" style="width: 7%">
+                <div class="num-guesses">{{v}}</div>
+            </div>
+            {% endif %}
         </div>
     </div>
 
     {% endfor %}
 </div>
+
 <div class="footer">
     <div class="countdown">
         <h1>Next WORDLE</h1>
@@ -61,5 +69,7 @@
         <button id="share-button">Share <game-icon icon="share"></game-icon></button>
     </div>
 </div>
-
+<!--  -->
+{% include 'wordle_stat/_index_script.html' %}
+<!--  -->
 {% endblock %}

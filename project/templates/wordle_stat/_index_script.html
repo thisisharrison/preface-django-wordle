@@ -1,0 +1,30 @@
+<script type="text/javascript">
+    document.getElementById("share-button").onclick = () => {
+        const squares = {{squares | safe}};
+        let shareText = `Preface Wordle {{ last_game.word.published_at|date:"M d, Y" }} ${squares.length} / 6\n\n`
+
+        for (const row of squares) {
+            let rowString = ``
+            for (const status of row) {
+                switch (status) {
+                    case 'absent':
+                        rowString += '⬛'
+                        break
+                    case 'present':
+                        rowString += '🟨'
+                        break
+                    case 'correct':
+                        rowString += '🟩'
+                        break
+                }
+            }
+            rowString += '\n'
+            shareText += rowString
+        }
+
+        console.log('squares', squares)
+        console.log(shareText)
+
+        alert(shareText)
+    };
+</script>

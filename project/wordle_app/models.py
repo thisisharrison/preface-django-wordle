@@ -1,7 +1,7 @@
 from datetime import timezone
 from django.conf import settings
 from django.db import models
-from django.utils import timezone
+from django.utils import timezone, formats
 from datetime import timedelta
 from django.core.validators import MinValueValidator, MaxValueValidator
 from wordle_word.models import Word
@@ -45,4 +45,4 @@ class Game(models.Model):
         )
 
     def __str__(self) -> str:
-        return f"{self.player.username} | {self.word} | {self.attempts} | {self.won}"
+        return f"{self.player.username} | {self.word} | {self.attempts} | {self.won} | ({formats.date_format(self.created_at, 'SHORT_DATE_FORMAT') if self.created_at else ''})"
