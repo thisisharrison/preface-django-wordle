@@ -1,5 +1,7 @@
 from functools import reduce
 from collections import OrderedDict
+from datetime import datetime, timedelta
+from django.utils import timezone
 import pdb
 
 
@@ -63,3 +65,20 @@ def transform_data(word, attempts):
     unique_dict = attempts_to_unique_dict(attempts_list)
     keyboard_list = keyboard_to_list(unique_dict)
     return [attempts_list, keyboard_list]
+
+
+def next_game_time():
+    curr_date = timezone.localdate()
+    curr_time = timezone.localtime()
+
+    next_date = curr_date + timedelta(days=1)
+    next_time = datetime(
+        next_date.year, next_date.month, next_date.day, tzinfo=curr_time.tzinfo
+    )
+    return [curr_date, next_time - curr_time]
+
+
+def is_same_date(date1, date2):
+    return (
+        date1.year == date2.year and date1.month == date2.month and date1.day == date2.day
+    )

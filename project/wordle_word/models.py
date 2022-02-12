@@ -14,7 +14,7 @@ class Word(models.Model):
     published_at = models.DateField(null=True)
 
     def __str__(self) -> str:
-        return f"{self.word} {formats.date_format(self.published_at) if self.published_at else ''}"
+        return f"{self.word} ({formats.date_format(self.published_at, 'SHORT_DATE_FORMAT') if self.published_at else ''})"
 
     @classmethod
     def todays_word(cls):

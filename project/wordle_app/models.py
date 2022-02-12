@@ -37,7 +37,7 @@ class Game(models.Model):
         return True
 
     @classmethod
-    def start_game(cls, request):
+    def start_new_game(cls, request):
         word = Word.todays_word()
         return Game.objects.create(
             player=request.user,
@@ -45,4 +45,4 @@ class Game(models.Model):
         )
 
     def __str__(self) -> str:
-        return f"{self.player}: {self.word}: {self.attempts}"
+        return f"{self.player.username} | {self.word} | {self.attempts} | {self.won}"
