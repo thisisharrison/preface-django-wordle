@@ -12,10 +12,15 @@
 {% block body %}
 
 <!-- TODO: Refactor to toast -->
-<div>{{errors}}</div>
-{% for message in messages %}
-<div>{{message}}</div>
-{% endfor %}
+{% if errors %}
+<div class="toast">{{errors}}</div>
+{% elif messages %}
+<div class="toast">
+    {% for message in messages %}
+    <p>{{message}}</p>
+    {% endfor %}
+</div>
+{% endif %}
 
 <!-- Format the table -->
 {% include 'wordle_app/table.html' %}

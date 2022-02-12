@@ -212,3 +212,17 @@ h5 {
     text-align: center;
     margin-top: 0;
 }
+
+.toast {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    pointer-events: none;
+    width: fit-content;
+    background-color: var(--color-tone-7);
+    padding: 0.8rem;
+    border: 1px solid #1a1a1b;
+    border-radius: 4px;
+    font-weight: 700;
+}
