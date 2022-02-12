@@ -27,7 +27,7 @@ def stat(request):
         "max_streak": 0,
     }
 
-    player = Game.objects.filter(player__exact=request.user.id)
+    player = Game.objects.filter(player__exact=request.user.id).exclude(won__isnull=True)
     stat_context["played"] = player.count()
 
     won = player.filter(won=True)
