@@ -8,6 +8,6 @@ urlpatterns = [
     path("basic_form/", basic_form, name="basic_form"),
     path("class_form/", class_form, name="class_form"),
     path("multi_value_form/", multi_value_form, name="multi_value_form"),
-    path("<str:pk>/", GameUpdateView.as_view(), name="game"),
-    path("<str:pk>/attempt", GameUpdateView.as_view(), name="attempt"),
+    path("game/<str:pk>/", GameUpdateView.as_view(), name="game"),
+    path("game/<str:pk>/attempt", GameUpdateView.as_view(), name="attempt"),
 ]

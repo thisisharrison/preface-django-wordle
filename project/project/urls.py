@@ -21,4 +21,5 @@ urlpatterns = [
     path("", include("wordle_app.urls")),
     path("account/", include("wordle_account.urls")),
     path("account/", include("django.contrib.auth.urls")),
+    path("stat/", include("wordle_stat.urls")),
 ]

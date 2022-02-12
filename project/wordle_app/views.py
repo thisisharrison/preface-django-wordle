@@ -77,12 +77,14 @@ class GameUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         word = self.object.word.word
         attempts = self.object.attempts
+        won = self.object.won
         [attempts_list, keyboard_list] = transform_data(word, attempts)
         context["attempts_list"] = attempts_list
         context["keyboard_list"] = keyboard_list
         context["remaining_attempts"] = (
             range(6 - len(attempts_list)) if len(attempts_list) >= 1 else range(6)
         )
+        context["won"] = won
         return context
 
     # If submitted more than 6 attempts in a 5 letter game

@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "wordle_app",
     "wordle_account",
     "wordle_word",
+    "wordle_stat",
 ]
 
 AUTH_USER_MODEL = "wordle_account.CustomUser"

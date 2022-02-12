@@ -19,7 +19,7 @@
     <!--  -->
     {% for row in remaining_attempts %}
     <tr>
-        {% if row is 0 %}
+        {% if row is 0 and not won %}
         <!--  -->
         {% include "wordle_app/table_form.html" %}
         <!--  -->
