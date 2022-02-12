@@ -22,6 +22,14 @@ class Word(models.Model):
         word = Word.objects.get(published_at__exact=today)
         return word
 
+    @classmethod
+    def valid_word(cls, word):
+        try:
+            obj = Word.objects.get(word__exact=word)
+        except Word.DoesNotExist:
+            obj = None
+        return obj
+
     # You will be fired if you use this!!!
     # But when you do use it, expect it to take some time
     @classmethod

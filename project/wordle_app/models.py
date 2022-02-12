@@ -44,10 +44,5 @@ class Game(models.Model):
             word=word,
         )
 
-    def attempt(self, request):
-        # TODO
-        pdb.set_trace()
-        pass
-
     def __str__(self) -> str:
         return f"{self.player}: {self.word}: {self.attempts}"

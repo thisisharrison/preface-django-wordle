@@ -1,0 +1,6 @@
+<h1>Attempt Form</h1>
+<form method="post">
+    {% csrf_token %} {{ form.non_field_errors }} {{form}}
+
+    <input type="submit" value="Attempt" />
+</form>

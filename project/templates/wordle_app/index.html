@@ -4,7 +4,10 @@
 {% block body %}
 
 <!-- TODO: Refactor to toast -->
-<div style="color: white">{{errors}}</div>
+<div>{{errors}}</div>
+{% for message in messages %}
+<div>{{message}}</div>
+{% endfor %}
 
 <!-- Format the table -->
 {% include 'wordle_app/table.html' %}
