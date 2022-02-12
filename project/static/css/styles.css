@@ -160,6 +160,10 @@ form {
     box-sizing: border-box;
 }
 
+.tile span {
+    color: var(--tile-text-color);
+}
+
 .tile input:focus {
     outline: none;
 }
