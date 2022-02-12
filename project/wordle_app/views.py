@@ -1,7 +1,8 @@
-from django.http import HttpResponse
+from django.http import Http404, HttpResponse
 from django.shortcuts import redirect, render
 from django.views.generic.edit import UpdateView
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 from wordle_word.models import Word
 
@@ -13,6 +14,7 @@ import pdb
 # Create your views here.
 
 
+@login_required(login_url="/account/login/")
 def homepage(request):
     [curr_date, next_game] = next_game_time()
     try:
@@ -37,11 +39,14 @@ class GameUpdateView(UpdateView):
     template_name = "wordle_app/index.html"
 
     def get(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        if not self.object.is_valid():
-            self.object = Game.start_new_game(request)
-            kwargs["pk"] = self.object.id
-        return super().get(request, *args, **kwargs)
+        try:
+            self.object = self.get_object()
+            if not self.object.is_valid():
+                self.object = Game.start_new_game(request)
+                kwargs["pk"] = self.object.id
+            return super().get(request, *args, **kwargs)
+        except Http404:
+            return redirect("wordle_app:homepage")
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -57,7 +62,7 @@ class GameUpdateView(UpdateView):
             return redirect(self.object.get_absolute_url())
 
         elif not Word.valid_word(attempt):
-            messages.add_message(request, messages.ERROR, "Not in word list")
+            messages.add_message(request, messages.ERROR, f'"{attempt}" not in word list')
             return redirect(self.object.get_absolute_url())
 
         else:
