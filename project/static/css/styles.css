@@ -1,10 +1,9 @@
 /* Copied straight from https://www.powerlanguage.co.uk/wordle/ */
-
 /* Global Styles & Colors */
 :root {
-    --green: #6aaa64;
+    --green: rgb(113, 204, 173);
     --darkendGreen: #538d4e;
-    --yellow: #c9b458;
+    --yellow: rgb(248, 192, 109);
     --darkendYellow: #b59f3b;
     --lightGray: #d8d8d8;
     --gray: #86888a;
@@ -14,7 +13,8 @@
     /* Colorblind colors */
     --orange: #f5793a;
     --blue: #85c0f9;
-    font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
+    /* Overrode with brand fonts */
+    font-family: "GalanoGrotesque", "Helvetica Neue", Arial, sans-serif;
     font-size: 16px;
     --header-height: 50px;
     --keyboard-height: 200px;
@@ -23,7 +23,7 @@
 /* Light theme colors */
 :root {
     --color-tone-1: #1a1a1b;
-    --color-tone-2: #787c7e;
+    --color-tone-2: rgb(68, 74, 84);
     --color-tone-3: #878a8c;
     --color-tone-4: #d3d6da;
     --color-tone-5: #edeff1;
@@ -91,142 +91,4 @@ body {
     padding: 0;
     /* Prevent scrollbar appearing on page transition */
     overflow-y: hidden;
-}
-
-/* Custom (using table instead of div like wordle) */
-
-table {
-    margin-left: auto;
-    margin-right: auto;
-    border-spacing: 5px;
-}
-
-td {
-    border: 2px solid var(--color-tone-4);
-    color: var(--tile-text-color);
-}
-
-td.present {
-    background-color: var(--color-present);
-    border-color: var(--color-present);
-}
-
-td.correct {
-    background-color: var(--color-correct);
-    border-color: var(--color-correct);
-}
-
-td.absent {
-    background-color: var(--color-absent);
-    border-color: var(--color-absent);
-}
-
-h1 {
-    color: var(--color-tone-1);
-}
-
-.nightmode h1 {
-    color: var(--tile-text-color);
-}
-
-h2,
-h5,
-a,
-form {
-    color: var(--color-tone-2);
-}
-
-.tile {
-    width: 62px;
-    height: 62px;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.tile input,
-.tile span {
-    width: 100%;
-    border: none;
-    background: transparent;
-    color: var(--color-tone-1);
-    text-align: center;
-    font-size: 2rem;
-    line-height: 2rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    user-select: none;
-    vertical-align: middle;
-    box-sizing: border-box;
-}
-
-.tile span {
-    color: var(--tile-text-color);
-}
-
-.tile input:focus {
-    outline: none;
-}
-
-.container {
-    max-width: var(--game-max-width);
-    margin: 0 auto;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-header {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    border-bottom: 1px solid var(--color-tone-4);
-}
-
-header h1 {
-    font-weight: 700;
-    font-size: 36px;
-    letter-spacing: 0.2rem;
-    text-transform: uppercase;
-    text-align: center;
-    margin-bottom: 0;
-}
-
-header h1 a {
-    text-decoration: none;
-    color: inherit;
-}
-
-header h1 a:visited {
-    text-decoration: none;
-    color: inherit;
-}
-
-.header-auth {
-    margin-bottom: 1rem;
-}
-
-.header-auth a {
-    color: var(--color-tone-2);
-    font-size: 0.8rem;
-}
-
-h5 {
-    text-align: center;
-    margin-top: 0;
-}
-
-.toast {
-    position: absolute;
-    top: 10%;
-    left: 50%;
-    transform: translate(-50%, 0);
-    pointer-events: none;
-    width: fit-content;
-    background-color: var(--color-tone-7);
-    padding: 0.8rem;
-    border: 1px solid #1a1a1b;
-    border-radius: 4px;
-    font-weight: 700;
 }

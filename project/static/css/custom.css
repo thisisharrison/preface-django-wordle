@@ -1,0 +1,181 @@
+/* Custom (using table instead of div like wordle) */
+:root {
+    --brand-color: rgb(40, 151, 188);
+}
+
+table {
+    margin-left: auto;
+    margin-right: auto;
+    border-spacing: 5px;
+}
+
+td {
+    border: 2px solid var(--color-tone-4);
+    color: var(--tile-text-color);
+}
+
+td.present {
+    background-color: var(--color-present);
+    border-color: var(--color-present);
+}
+
+td.correct {
+    background-color: var(--color-correct);
+    border-color: var(--color-correct);
+}
+
+td.absent {
+    background-color: var(--color-absent);
+    border-color: var(--color-absent);
+}
+
+h1 {
+    color: var(--brand-color);
+    line-height: 1.25;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.nightmode h1 {
+    color: var(--tile-text-color);
+}
+
+h2,
+h5,
+a,
+form {
+    color: var(--color-tone-2);
+}
+
+.tile {
+    width: 62px;
+    height: 62px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tile input,
+.tile span {
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: var(--color-tone-1);
+    text-align: center;
+    font-size: 2rem;
+    line-height: 2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    user-select: none;
+    vertical-align: middle;
+    box-sizing: border-box;
+}
+
+.tile span {
+    color: var(--tile-text-color);
+}
+
+.tile input:focus {
+    outline: none;
+}
+
+.container {
+    max-width: var(--game-max-width);
+    margin: 0 auto;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border-bottom: 1px solid var(--color-tone-4);
+    width: 100%;
+}
+
+header h1 {
+    font-weight: 700;
+    font-size: 36px;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 0;
+    margin-top: 1rem;
+}
+
+header h1 a {
+    text-decoration: none;
+    color: inherit;
+}
+
+header h1 a:visited {
+    text-decoration: none;
+    color: inherit;
+}
+
+.header-auth {
+    width: 80%;
+    display: inline-flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.header-auth a {
+    color: var(--color-tone-2);
+    font-size: 0.8rem;
+    font-weight: 400;
+}
+
+h5 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.toast {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    pointer-events: none;
+    width: fit-content;
+    background-color: var(--color-tone-7);
+    padding: 0.8rem;
+    border: 1px solid #1a1a1b;
+    border-radius: 4px;
+    font-weight: 700;
+}
+
+.auth-form,
+.statistic-card {
+    padding: 2rem;
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 1px 1px 1px 1px rgb(64 64 64 / 10%);
+    background-color: var(--color-background);
+}
+
+.auth-form input {
+    font-family: inherit;
+    border: 2px solid var(--color-tone-1);
+    padding: 0.3rem 0 0.3rem 0.3rem;
+    border-radius: 8px;
+    width: 90%;
+}
+
+.auth-form input[type="submit"] {
+    width: 100%;
+    height: 2.5rem;
+    margin: 0 auto 0 auto;
+    background-color: var(--color-tone-1);
+    color: #fff;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.statistic-card h1 {
+    font-weight: bold;
+    font-size: 20px;
+}

@@ -1,18 +1,21 @@
 <!-- Extend template -->
-{% extends 'wordle_app/base.html' %}
+{% extends 'registration/base.html' %}
 <!-- Block begins -->
-{% block body %}
+{% block content %}
 
-<h2>Log In</h2>
+<div class="auth-form">
+    <h2>Log In</h2>
 
-<form method="post">
-    <!-- token -->
-    {% csrf_token %}
-    <!-- form -->
-    {{form.as_p}}
-    <!-- submit -->
-    <input type="submit" value="Log In" />
-</form>
-
+    <form method="post">
+        <!-- token -->
+        {% csrf_token %}
+        <!-- form -->
+        {{form.as_p}}
+        <!-- submit -->
+        <input type="submit" value="Log In" />
+    </form>
+    <br />
+    <a href="{% url 'signup' %}">Signup to play</a>
+</div>
 <!-- End block -->
 {% endblock %}

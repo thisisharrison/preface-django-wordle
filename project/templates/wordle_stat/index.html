@@ -1,72 +1,75 @@
 <!-- Extend template -->
-{% extends 'wordle_app/base.html' %}
+{% extends 'registration/base.html' %}
 <!--  -->
-{% block body %}
+{% block content %}
 <!--  -->
 {% include 'wordle_stat/_index_style.html' %}
 <!--  -->
+<div class="statistic-card">
+    <a href="{% url 'wordle_app:homepage' %}">Back to homepage</a>
 
-<h1>Statistics</h1>
+    <h1>Statistics</h1>
 
-<div id="statistics">
-    <div class="statistic-container">
-        <div class="statistic">{{stat.played}}</div>
-        <div class="label">Played</div>
-    </div>
+    <div id="statistics">
+        <div class="statistic-container">
+            <div class="statistic">{{stat.played}}</div>
+            <div class="label">Played</div>
+        </div>
 
-    <div class="statistic-container">
-        <div class="statistic">{{ stat.win_rate|floatformat:"0" }}</div>
-        <div class="label">Win %</div>
-    </div>
+        <div class="statistic-container">
+            <div class="statistic">{{ stat.win_rate|floatformat:"0" }}</div>
+            <div class="label">Win %</div>
+        </div>
 
-    <div class="statistic-container">
-        <div class="statistic">{{stat.current_streak}}</div>
-        <div class="label">Current Streak</div>
-    </div>
+        <div class="statistic-container">
+            <div class="statistic">{{stat.current_streak}}</div>
+            <div class="label">Current Streak</div>
+        </div>
 
-    <div class="statistic-container">
-        <div class="statistic">{{stat.max_streak}}</div>
-        <div class="label">Max Streak</div>
-    </div>
-</div>
-
-<h1>Guess Distribution</h1>
-<div id="guess-distribution">
-    {% for k, v in stat.distribution.items %}
-
-    <div class="graph-container">
-        <div class="guess">{{ k }}</div>
-        <div class="graph">
-            {% widthratio v max_value 100 as width %}
-            <!--  -->
-            {% if width != '0' %}
-            <div class="graph-bar align-right highlight" style="width: {{width}}%">
-                <div class="num-guesses">{{v}}</div>
-            </div>
-            {% else %}
-            <div class="graph-bar align-right highlight" style="width: 7%">
-                <div class="num-guesses">{{v}}</div>
-            </div>
-            {% endif %}
+        <div class="statistic-container">
+            <div class="statistic">{{stat.max_streak}}</div>
+            <div class="label">Max Streak</div>
         </div>
     </div>
 
-    {% endfor %}
-</div>
+    <h1>Guess Distribution</h1>
+    <div id="guess-distribution">
+        {% for k, v in stat.distribution.items %}
 
-<div class="footer">
-    <div class="countdown">
-        <h1>Next WORDLE</h1>
-        <div id="timer">
-            <div class="statistic-container">
-                <div class="statistic timer">
-                    <countdown-timer></countdown-timer>
+        <div class="graph-container">
+            <div class="guess">{{ k }}</div>
+            <div class="graph">
+                {% widthratio v max_value 100 as width %}
+                <!--  -->
+                {% if width != '0' %}
+                <div class="graph-bar align-right highlight" style="width: {{width}}%">
+                    <div class="num-guesses">{{v}}</div>
+                </div>
+                {% else %}
+                <div class="graph-bar align-right highlight" style="width: 7%">
+                    <div class="num-guesses">{{v}}</div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        {% endfor %}
+    </div>
+
+    <div class="footer">
+        <div class="countdown">
+            <h1>Next WORDLE</h1>
+            <div id="timer">
+                <div class="statistic-container">
+                    <div class="statistic timer">
+                        <countdown-timer></countdown-timer>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="share">
-        <button id="share-button">Share <game-icon icon="share"></game-icon></button>
+        <div class="share">
+            <button id="share-button">Share</button>
+        </div>
     </div>
 </div>
 <!--  -->
