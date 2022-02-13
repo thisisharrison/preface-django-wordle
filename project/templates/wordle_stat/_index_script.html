@@ -46,4 +46,22 @@
         alert(shareText)
         copyText(shareText)
     };
+
+    let distance = {{next_game|safe}}
+
+    if (typeof(distance) === 'number') {
+        const msgBox = document.querySelector('.statistic.timer')
+        msgBox.innerText = `...`
+        const prettyTime = (num) => num < 10 ? '0' + num : num
+
+        window.setInterval(() => {
+            distance = distance - 1
+            const hr = prettyTime(Math.floor((distance % (60 * 60 * 24)) / (60 * 60)));
+            const min = prettyTime(Math.floor((distance % (60 * 60)) / (60)));
+            const sec = prettyTime(Math.floor((distance % (60))))
+
+            const msg = `${(hr)}:${min}:${sec}`
+            msgBox.innerText = msg
+        }, 1000)
+    }
 </script>

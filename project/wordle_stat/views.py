@@ -4,8 +4,8 @@ from django.utils import timezone, timesince
 from django.contrib.auth.decorators import login_required
 
 from wordle_app.models import Game
-from wordle_app.utils import is_same_date
-from wordle_app.utils import transform_data
+from wordle_app.utils import is_same_date, next_game_time, transform_data
+
 
 # Create your views here.
 
@@ -82,6 +82,8 @@ def stat(request):
         for i, row in enumerate(attempts_list):
             attempts_list[i] = list(map(lambda char: char[1], row))
 
+    [_, next_game] = next_game_time()
+
     return render(
         request,
         "wordle_stat/index.html",
@@ -90,5 +92,6 @@ def stat(request):
             "max_value": max_value,
             "squares": attempts_list,
             "last_game": last_game,
+            "next_game": next_game.seconds,
         },
     )

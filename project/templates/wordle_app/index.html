@@ -1,6 +1,9 @@
 <!-- Extend template -->
 {% extends 'wordle_app/base.html' %}
 
+<!-- Load static -->
+{% load static %}
+
 <!-- Block begins -->
 {% block header %}
 <!--  -->
@@ -15,11 +18,33 @@
 {% if errors %}
 <div class="toast">{{errors}}</div>
 {% elif messages %}
-<div class="toast">
+<script>
+    let distance = 0
     {% for message in messages %}
-    <p>{{message}}</p>
+    distance = {{ message | safe }}
     {% endfor %}
-</div>
+
+    if (typeof(distance) === 'number') {
+        const toast = document.createElement('div')
+        toast.setAttribute('class', 'toast')
+        const msgBox = document.createElement('p')
+        msgBox.innerText = `Next wordle in ...`
+        toast.appendChild(msgBox)
+        const prettyTime = (num) => num < 10 ? '0' + num : num
+
+        window.setInterval(() => {
+            distance = distance - 1
+            const hr = prettyTime(Math.floor((distance % (60 * 60 * 24)) / (60 * 60)));
+            const min = prettyTime(Math.floor((distance % (60 * 60)) / (60)));
+            const sec = prettyTime(Math.floor((distance % (60))))
+
+            const msg = `Next wordle in ${(hr)}:${min}:${sec}`
+            msgBox.innerText = msg
+        }, 1000)
+
+        document.body.appendChild(toast)
+    }
+</script>
 {% endif %}
 
 <!-- Format the table -->

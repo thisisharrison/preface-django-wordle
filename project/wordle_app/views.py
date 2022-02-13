@@ -28,7 +28,7 @@ def homepage(request):
 
     # user has a game, check if it's finished
     elif game.won != None:
-        messages.add_message(request, messages.INFO, f"Next wordle in {next_game}")
+        messages.add_message(request, messages.INFO, f"{next_game.seconds}")
 
     return redirect("wordle_app:game", game.id)
 
@@ -69,7 +69,13 @@ class GameUpdateView(UpdateView):
             prefix = self.object.attempts + "," if self.object.attempts else ""
             request.POST["attempts"] = prefix + attempt
             request.POST["tries"] = self.object.tries + 1
-            request.POST["won"] = self.object.word.word == attempt
+            request.POST["won"] = (
+                True
+                if self.object.word.word == attempt
+                else False
+                if request.POST["tries"] == 6
+                else None
+            )
 
             return super(GameUpdateView, self).post(request, *args, **kwargs)
 

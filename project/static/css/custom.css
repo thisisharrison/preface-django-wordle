@@ -143,9 +143,10 @@ h5 {
     width: fit-content;
     background-color: var(--color-tone-7);
     padding: 0.8rem;
-    border: 1px solid #1a1a1b;
+    border: 2px solid var(--color-tone-4);
     border-radius: 4px;
     font-weight: 700;
+    box-shadow: 1px 1px 1px 1px rgb(64 64 64 / 10%);
 }
 
 .auth-form,
