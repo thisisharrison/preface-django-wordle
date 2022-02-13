@@ -12,9 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
-
 import io
-import os
 
 import environ
 from google.cloud import secretmanager
@@ -133,7 +131,6 @@ if os.getenv("USE_CLOUD_SQL_AUTH_PROXY", None):
 
 # [END gaeflex_py_django_database_config]
 # [END dbconfig]
-
 
 
 # Password validation
