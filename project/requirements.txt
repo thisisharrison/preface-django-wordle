@@ -10,7 +10,11 @@ django-environ==0.8.1
 django-storages==1.12.3
 google-api-core==2.5.0
 google-auth==2.6.0
+google-cloud-core==2.2.2
 google-cloud-secret-manager==2.8.0
+google-cloud-storage==2.1.0
+google-crc32c==1.3.0
+google-resumable-media==2.2.1
 googleapis-common-protos==1.54.0
 grpc-google-iam-v1==0.12.3
 grpcio==1.43.0
@@ -23,6 +27,7 @@ pbd==0.9
 platformdirs==2.4.1
 proto-plus==1.20.0
 protobuf==3.19.4
+psycopg2-binary==2.9.3
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 python-dotenv==0.19.2
