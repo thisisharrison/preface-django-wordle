@@ -170,14 +170,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-# STATIC_URL = "static/"
-# STATICFILES_DIRS = [STATIC_DIR]
-
 # [START staticurl]
 # [START gaeflex_py_django_static_config]
 # Define static storage via django-storages[google]
 GS_BUCKET_NAME = env("GS_BUCKET_NAME")
-STATIC_URL = "/static/"
+STATIC_URL = "static/"
+STATICFILES_DIRS = [STATIC_DIR]
 DEFAULT_FILE_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
 STATICFILES_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
 GS_DEFAULT_ACL = "publicRead"
