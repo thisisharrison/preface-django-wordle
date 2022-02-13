@@ -2,15 +2,12 @@
 
 ## Features
 
-1. Auth: Save your stats
-2. User logs in:
-    1. User has a `game` that is not expired, User resumes playing
-    2. User does not have a `game`, User starts `game` and plays `todays_word`
-3. User makes attempts
-4. User sees Streaks, Distribution, Today's Leader Board and generate a string to share their result
+1. App: Play the game
+2. Account: Custom user from django
+3. Word: Stores the list of words
+4. Stat: Shows user their stats
 
-## Custom Feature
+## Custom Feature for the Future
 
 1. n digits n + 1 attempts
-2. Can be played in reverse order
-3. Generate a Game Room to battle with friends
+2. Generate a Game Room to battle with friends
