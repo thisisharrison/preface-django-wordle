@@ -38,14 +38,15 @@ class GameUpdateView(UpdateView):
     fields = ["attempts", "won", "tries"]
     template_name = "wordle_app/index.html"
 
-    # BUG: when viewing old games, accidentally created new ones 
+    # Check if new games get accidentally created
     def get(self, request, *args, **kwargs):
         try:
             self.object = self.get_object()
-            if not self.object.is_valid():
-                self.object = Game.start_new_game(request)
-                kwargs["pk"] = self.object.id
-            return super().get(request, *args, **kwargs)
+            if self.object.player.id == request.user.id:
+                return super().get(request, *args, **kwargs)
+            else:
+                # TODO: throw correct status code error
+                raise Http404
         except Http404:
             return redirect("wordle_app:homepage")
 
@@ -54,7 +55,7 @@ class GameUpdateView(UpdateView):
         request.POST = request.POST.copy()
         word = self.object.word.word
         attempt = ""
-        
+
         for k, v in request.POST.items():
             if "char" in k:
                 attempt += v.upper()
