@@ -47,7 +47,7 @@ def stat(request):
 
     streaks = list(won.values_list("created_at", flat=True).order_by("-created_at"))
 
-    if not is_same_date(streaks[0], timezone.localtime()):
+    if len(streaks) == 0 or  not is_same_date(streaks[0], timezone.localtime()):
         stat_context["current_streak"] = 0
     else:
         for i, streak in enumerate(streaks):
