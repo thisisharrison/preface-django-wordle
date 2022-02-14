@@ -38,44 +38,52 @@ class GameUpdateView(UpdateView):
     fields = ["attempts", "won", "tries"]
     template_name = "wordle_app/index.html"
 
+    # Check if new games get accidentally created
     def get(self, request, *args, **kwargs):
         try:
             self.object = self.get_object()
-            if not self.object.is_valid():
-                self.object = Game.start_new_game(request)
-                kwargs["pk"] = self.object.id
-            return super().get(request, *args, **kwargs)
+            if self.object.player.id == request.user.id:
+                return super().get(request, *args, **kwargs)
+            else:
+                # TODO: throw correct status code error
+                raise Http404
         except Http404:
             return redirect("wordle_app:homepage")
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         request.POST = request.POST.copy()
-
+        word = self.object.word.word
         attempt = ""
+
         for k, v in request.POST.items():
             if "char" in k:
                 attempt += v.upper()
 
         if len(attempt) < 5:
-            messages.add_message(request, messages.ERROR, "Not enough letters")
+            messages.add_message(request, messages.ERROR, '"Not enough letters"')
             return redirect(self.object.get_absolute_url())
 
         elif not Word.valid_word(attempt):
-            messages.add_message(request, messages.ERROR, f'"{attempt}" not in word list')
+            msg = f'"{attempt}" not in word list'
+            messages.add_message(request, messages.ERROR, f"'{msg}'")
             return redirect(self.object.get_absolute_url())
 
         else:
             prefix = self.object.attempts + "," if self.object.attempts else ""
+            tries = self.object.tries + 1
+            won = True if word == attempt else False if tries == 6 else None
+            
             request.POST["attempts"] = prefix + attempt
-            request.POST["tries"] = self.object.tries + 1
-            request.POST["won"] = (
-                True
-                if self.object.word.word == attempt
-                else False
-                if request.POST["tries"] == 6
-                else None
-            )
+            request.POST["tries"] = tries
+            request.POST["won"] = won
+            
+            if won: 
+                congrats = ["Genius", "Magnificent", "Impressive", "Splendid", "Great", "Phew"]
+                messages.add_message(request, messages.INFO, f"'{congrats[tries - 1]}!'")
+            elif won == False:
+                msg = f'The word is "{word}"'
+                messages.add_message(request, messages.INFO, f"'{msg}'")
 
             return super(GameUpdateView, self).post(request, *args, **kwargs)
 
