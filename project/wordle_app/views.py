@@ -38,6 +38,7 @@ class GameUpdateView(UpdateView):
     fields = ["attempts", "won", "tries"]
     template_name = "wordle_app/index.html"
 
+    # BUG: when viewing old games, accidentally created new ones 
     def get(self, request, *args, **kwargs):
         try:
             self.object = self.get_object()
@@ -58,11 +59,12 @@ class GameUpdateView(UpdateView):
                 attempt += v.upper()
 
         if len(attempt) < 5:
-            messages.add_message(request, messages.ERROR, "Not enough letters")
+            messages.add_message(request, messages.ERROR, '"Not enough letters"')
             return redirect(self.object.get_absolute_url())
 
         elif not Word.valid_word(attempt):
-            messages.add_message(request, messages.ERROR, f'"{attempt}" not in word list')
+            msg = f'"{attempt}" not in word list'
+            messages.add_message(request, messages.ERROR, f"'{msg}'")
             return redirect(self.object.get_absolute_url())
 
         else:

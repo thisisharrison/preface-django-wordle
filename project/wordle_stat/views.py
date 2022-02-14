@@ -1,7 +1,8 @@
 import pdb
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils import timezone, timesince
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from wordle_app.models import Game
 from wordle_app.utils import is_same_date, next_game_time, transform_data
@@ -29,6 +30,10 @@ def stat(request):
 
     player = Game.objects.filter(player__exact=request.user.id).exclude(won__isnull=True)
     stat_context["played"] = player.count()
+
+    if stat_context["played"] == 0:
+        messages.add_message(request, messages.ERROR, "'No game stats'")
+        return redirect("wordle_app:homepage")
 
     won = player.filter(won=True)
     stat_context["win_rate"] = (won.count() / stat_context["played"]) * 100
