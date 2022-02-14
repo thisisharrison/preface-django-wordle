@@ -52,8 +52,9 @@ class GameUpdateView(UpdateView):
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         request.POST = request.POST.copy()
-
+        word = self.object.word.word
         attempt = ""
+        
         for k, v in request.POST.items():
             if "char" in k:
                 attempt += v.upper()
@@ -69,15 +70,19 @@ class GameUpdateView(UpdateView):
 
         else:
             prefix = self.object.attempts + "," if self.object.attempts else ""
+            tries = self.object.tries + 1
+            won = True if word == attempt else False if tries == 6 else None
+            
             request.POST["attempts"] = prefix + attempt
-            request.POST["tries"] = self.object.tries + 1
-            request.POST["won"] = (
-                True
-                if self.object.word.word == attempt
-                else False
-                if request.POST["tries"] == 6
-                else None
-            )
+            request.POST["tries"] = tries
+            request.POST["won"] = won
+            
+            if won: 
+                congrats = ["Genius", "Magnificent", "Impressive", "Splendid", "Great", "Phew"]
+                messages.add_message(request, messages.INFO, f"'{congrats[tries - 1]}!'")
+            elif won == False:
+                msg = f'The word is "{word}"'
+                messages.add_message(request, messages.INFO, f"'{msg}'")
 
             return super(GameUpdateView, self).post(request, *args, **kwargs)
 
