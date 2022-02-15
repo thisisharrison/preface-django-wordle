@@ -55,8 +55,8 @@ class GameCreateView(CreateView):
         kwargs.update({"player": self.request.user})
         return kwargs
 
-    # def get_success_url(self):
-    #     return reverse("wordle_app:game", kwargs={"pk": self.object.id})
+    def get_success_url(self):
+        return reverse("wordle_app:game", kwargs={"pk": self.object.id})
 
     # # Vanilla way:
     # def get(self, request, *args, **kwargs):

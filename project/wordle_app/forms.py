@@ -63,8 +63,7 @@ class AttemptMultiValueField(forms.fields.MultiValueField):
 
 class AttemptClassForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
-        player = kwargs.pop("player")
-        self.player = player
+        self.player = kwargs.pop("player")
         super().__init__(*args, **kwargs)
 
     def clean(self):
@@ -76,6 +75,11 @@ class AttemptClassForm(forms.ModelForm):
         elif not Word.valid_word(attempt):
             raise forms.ValidationError(f"'{attempt}' not in word list")
         else:
+            # instance referring to the Game object in creation!
+            self.instance.player = self.player
+            # self.instance.word = self.word
+            self.instance.tries += 1
+            self.instance.word = Word.todays_word()
             return cleaned_data
 
     class Meta:
