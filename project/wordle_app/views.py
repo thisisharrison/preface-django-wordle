@@ -34,17 +34,6 @@ def homepage(request):
     return redirect("wordle_app:game", game.id)
 
 
-def refactor(request):
-    form = forms.AttemptForm()
-
-    if request.method == "POST":
-        form = forms.AttemptForm(request.POST)
-        if form.is_valid():
-            return HttpResponse("ok")
-
-    return render(request, "wordle_app/form.html", {"form": form})
-
-
 class GameCreateView(CreateView):
     model = Game
     template_name = "wordle_app/form.html"
@@ -152,30 +141,3 @@ class GameUpdateView(UpdateView):
             return self.render_to_response(
                 self.get_context_data(form=form, errors=form.errors)
             )
-
-
-""" ALTERNATIVE WAYS """
-
-# How we want to break up each fields
-def basic_form(request):
-    form = forms.AttemptForm()
-    return render(request, "wordle_app/form.html", {"form": form})
-
-
-# How to use class
-def class_form(request):
-    form = forms.AttemptClassForm()
-    if request.POST:
-        attempt = forms.AttemptClassForm(request.POST)
-        if not attempt.is_valid():
-            return render(request, "wordle_app/form.html", {"form": attempt})
-        else:
-            return HttpResponse("working")
-    else:
-        return render(request, "wordle_app/form.html", {"form": form})
-
-
-# Not working
-def multi_value_form(request):
-    form = forms.AttemptMultiValueForm()
-    return render(request, "wordle_app/form.html", {"form": form})
