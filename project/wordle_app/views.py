@@ -1,6 +1,7 @@
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect, render
-from django.views.generic.edit import UpdateView
+from django.urls import reverse
+from django.views.generic.edit import CreateView, UpdateView
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
@@ -31,6 +32,42 @@ def homepage(request):
         messages.add_message(request, messages.INFO, f"{next_game.seconds}")
 
     return redirect("wordle_app:game", game.id)
+
+
+def refactor(request):
+    form = forms.AttemptForm()
+
+    if request.method == "POST":
+        form = forms.AttemptForm(request.POST)
+        if form.is_valid():
+            return HttpResponse("ok")
+
+    return render(request, "wordle_app/form.html", {"form": form})
+
+
+class GameCreateView(CreateView):
+    model = Game
+    template_name = "wordle_app/form.html"
+    form_class = forms.AttemptClassForm
+
+    def get_form_kwargs(self):
+        kwargs = super(GameCreateView, self).get_form_kwargs()
+        kwargs.update({"player": self.request.user})
+        return kwargs
+
+    # def get_success_url(self):
+    #     return reverse("wordle_app:game", kwargs={"pk": self.object.id})
+
+    # # Vanilla way:
+    # def get(self, request, *args, **kwargs):
+    #     context = {"form": forms.AttemptClassForm}
+    #     return render(request, "wordle_app/form.html", {"form": form})
+
+    # def post(self, request, *args, **kwargs):
+    #     form = forms.AttemptClassForm(request.POST)
+    #     if form.is_valid():
+    #         return HttpResponse("ok")
+    #     return render(request, "wordle_app/form.html", {"form": form})
 
 
 class GameUpdateView(UpdateView):
@@ -73,13 +110,20 @@ class GameUpdateView(UpdateView):
             prefix = self.object.attempts + "," if self.object.attempts else ""
             tries = self.object.tries + 1
             won = True if word == attempt else False if tries == 6 else None
-            
+
             request.POST["attempts"] = prefix + attempt
             request.POST["tries"] = tries
             request.POST["won"] = won
-            
-            if won: 
-                congrats = ["Genius", "Magnificent", "Impressive", "Splendid", "Great", "Phew"]
+
+            if won:
+                congrats = [
+                    "Genius",
+                    "Magnificent",
+                    "Impressive",
+                    "Splendid",
+                    "Great",
+                    "Phew",
+                ]
                 messages.add_message(request, messages.INFO, f"'{congrats[tries - 1]}!'")
             elif won == False:
                 msg = f'The word is "{word}"'
@@ -114,7 +158,7 @@ class GameUpdateView(UpdateView):
 
 # How we want to break up each fields
 def basic_form(request):
-    form = forms.AttemptBasicForm()
+    form = forms.AttemptForm()
     return render(request, "wordle_app/form.html", {"form": form})
 
 
