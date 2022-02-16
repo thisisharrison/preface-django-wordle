@@ -44,7 +44,7 @@ class Word(models.Model):
         # To shuffle save words to list first
         words = []
         for row in csvreader:
-            words.append(row[0].upper())
+            words.append(row[0])
 
         shuffle(words)
 

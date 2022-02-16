@@ -58,7 +58,7 @@ class AttemptMultiValueField(forms.fields.MultiValueField):
         super(AttemptMultiValueField, self).__init__(input_list)
 
     def compress(self, values):
-        return "".join(values).upper()
+        return "".join(values).lower()
 
 
 class AttemptClassForm(forms.ModelForm):
