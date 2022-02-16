@@ -3,10 +3,6 @@ from .views import (
     GameCreateView,
     homepage,
     GameUpdateView,
-    basic_form,
-    class_form,
-    multi_value_form,
-    refactor,
 )
 
 app_name = "wordle_app"

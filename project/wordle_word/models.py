@@ -49,10 +49,12 @@ class Word(models.Model):
         shuffle(words)
 
         # Get today's date and increment by 1
+        entries = []
         start_date = timezone.localdate()
         for i, word in enumerate(words[:10]):
             published_date = start_date + timedelta(days=i)
-            entry = Word.objects.create(word=word, published_at=published_date)
-            entry.save()
+            entry = Word(word=word, published_at=published_date)
+            entries.append(entry)
 
+        Word.objects.bulk_create(entries)
         print("seeded DB")
