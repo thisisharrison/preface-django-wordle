@@ -70,11 +70,15 @@ class AttemptClassForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
         # One input has more than 1 char
-        characters = cleaned_data.get("attempts")
-        attempt = "".join(characters)
+        attempt = cleaned_data.get("attempts")
+
+        if attempt is None:
+            raise forms.ValidationError(self.errors.get("attempts"))
+
         if len(attempt) != 5:
             raise forms.ValidationError("Word must be length of 5")
-        elif not Word.valid_word(attempt):
+
+        if not Word.valid_word(attempt):
             raise forms.ValidationError(f"'{attempt}' not in word list")
 
         # instance referring to the Game object in creation!
@@ -82,7 +86,6 @@ class AttemptClassForm(forms.ModelForm):
             self.instance.word = Word.todays_word()
 
         self.instance.player = self.player
-        # self.instance.word = self.word
         self.instance.tries += 1
         return cleaned_data
 
