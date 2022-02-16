@@ -36,28 +36,47 @@ def homepage(request):
 
 class GameCreateView(CreateView):
     model = Game
-    template_name = "wordle_app/form.html"
+    template_name = "wordle_app/table_form.html"
     form_class = forms.AttemptClassForm
 
     def get_form_kwargs(self):
         kwargs = super(GameCreateView, self).get_form_kwargs()
-        kwargs.update({"player": self.request.user})
         kwargs.update({"type": "create"})
         return kwargs
 
     def get_success_url(self):
-        return reverse("wordle_app:game", kwargs={"pk": self.object.id})
+        return reverse("wordle_app:gameV2", kwargs={"pk": self.object.id})
 
-    # # Vanilla way:
-    # def get(self, request, *args, **kwargs):
-    #     context = {"form": forms.AttemptClassForm}
-    #     return render(request, "wordle_app/form.html", {"form": form})
+    def form_valid(self, form):
+        form.instance.player = self.request.user
+        return super().form_valid(form)
 
-    # def post(self, request, *args, **kwargs):
-    #     form = forms.AttemptClassForm(request.POST)
-    #     if form.is_valid():
-    #         return HttpResponse("ok")
-    #     return render(request, "wordle_app/form.html", {"form": form})
+
+class GameUpdateViewV2(UpdateView):
+    model = Game
+    template_name = "wordle_app/index.html"
+    form_class = forms.AttemptClassForm
+
+    def get_form_kwargs(self):
+        kwargs = super(GameUpdateViewV2, self).get_form_kwargs()
+        kwargs.update({"type": "update"})
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        word = self.object.word.word
+        attempts = self.object.attempts
+        won = self.object.won
+        [attempts_list, keyboard_list] = transform_data(word, attempts)
+        context["attempts_list"] = attempts_list
+        context["keyboard_list"] = keyboard_list
+        context["remaining_attempts"] = (
+            range(6 - len(attempts_list)) if len(attempts_list) >= 1 else range(6)
+        )
+        context["won"] = won
+
+        return context
 
 
 class GameUpdateView(UpdateView):

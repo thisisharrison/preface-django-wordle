@@ -1,12 +1,6 @@
-<form action="{% url 'wordle_app:attempt' game.id %}" method="post">
+<form method="post">
     {% csrf_token %}
     <!--  -->
-    {% for i in '01234'|make_list %}
-    <td>
-        <div class="tile">
-            <input type="text" name="char{{i}}" value="" maxlength="1" />
-        </div>
-    </td>
-    {% endfor %}
+    {{form}}
     <input type="submit" style="visibility: hidden; height: 0px; position: absolute; top: 0; right: 0" />
 </form>

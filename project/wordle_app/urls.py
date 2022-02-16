@@ -1,15 +1,14 @@
 from django.urls import path
-from .views import (
-    GameCreateView,
-    homepage,
-    GameUpdateView,
-)
+from .views import GameCreateView, homepage, GameUpdateView, GameUpdateViewV2
 
 app_name = "wordle_app"
 
 urlpatterns = [
     path("", homepage, name="homepage"),
-    path("create", GameCreateView.as_view(), name="create"),
-    path("game/<str:pk>/", GameUpdateView.as_view(), name="game"),
-    path("game/<str:pk>/attempt", GameUpdateView.as_view(), name="attempt"),
+    path("game/create", GameCreateView.as_view(), name="create"),
+    path("game/v2/<str:pk>", GameUpdateViewV2.as_view(), name="gameV2"),
+    path("game/v2/<str:pk>/attempt", GameUpdateViewV2.as_view(), name="attemptV2"),
+    # deprecate
+    # path("game/<str:pk>", GameUpdateView.as_view(), name="game"),
+    # path("game/<str:pk>/attempt", GameUpdateView.as_view(), name="attempt"),
 ]

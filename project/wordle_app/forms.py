@@ -63,13 +63,11 @@ class AttemptMultiValueField(forms.fields.MultiValueField):
 
 class AttemptClassForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
-        self.player = kwargs.pop("player")
         self.type = kwargs.pop("type")
         super().__init__(*args, **kwargs)
 
     def clean(self):
         cleaned_data = super().clean()
-        # One input has more than 1 char
         attempt = cleaned_data.get("attempts")
 
         if attempt is None:
@@ -85,8 +83,14 @@ class AttemptClassForm(forms.ModelForm):
         if self.type == "create":
             self.instance.word = Word.todays_word()
 
-        self.instance.player = self.player
+        if self.type == "update":
+            previous = self.instance.attempts
+            cleaned_data["attempts"] = previous + "," + attempt
+
         self.instance.tries += 1
+
+        pdb.set_trace()
+
         return cleaned_data
 
     class Meta:
@@ -95,3 +99,9 @@ class AttemptClassForm(forms.ModelForm):
         field_classes = {
             "attempts": AttemptMultiValueField,
         }
+
+
+class AttemptClassFormBAD(forms.ModelForm):
+    class Meta:
+        model = Game
+        fields = "__all__"

@@ -47,7 +47,7 @@ def attempts_to_unique_dict(attempts_list):
 
 
 def keyboard_to_list(unique_dict):
-    KEYBOARD = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"]
+    KEYBOARD = ["qwertyuiop", "asdfghjkl", "zxcvbnm"]
     keyboard_list = []
 
     for row in KEYBOARD:
