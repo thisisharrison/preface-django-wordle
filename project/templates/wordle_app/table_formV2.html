@@ -1,0 +1,6 @@
+<form method="post">
+    {% csrf_token %}
+    <!--  -->
+    {{form}}
+    <input type="submit" style="visibility: hidden; height: 0px; position: absolute; top: 0; right: 0" />
+</form>

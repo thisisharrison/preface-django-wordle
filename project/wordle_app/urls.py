@@ -9,6 +9,6 @@ urlpatterns = [
     path("game/v2/<str:pk>", GameUpdateViewV2.as_view(), name="gameV2"),
     path("game/v2/<str:pk>/attempt", GameUpdateViewV2.as_view(), name="attemptV2"),
     # deprecate
-    # path("game/<str:pk>", GameUpdateView.as_view(), name="game"),
-    # path("game/<str:pk>/attempt", GameUpdateView.as_view(), name="attempt"),
+    path("game/v1/<str:pk>", GameUpdateView.as_view(), name="game"),
+    path("game/v1/<str:pk>/attempt", GameUpdateView.as_view(), name="attempt"),
 ]
