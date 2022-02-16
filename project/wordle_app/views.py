@@ -42,6 +42,7 @@ class GameCreateView(CreateView):
     def get_form_kwargs(self):
         kwargs = super(GameCreateView, self).get_form_kwargs()
         kwargs.update({"player": self.request.user})
+        kwargs.update({"type": "create"})
         return kwargs
 
     def get_success_url(self):

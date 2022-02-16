@@ -36,7 +36,7 @@ class AttemptForm(forms.Form):
 # Define the widget for MultiValue form to use. Otherwise, default is a single Text Input field
 class AttemptMultiValueWidget(forms.MultiWidget):
     def __init__(self, attrs=None):
-        widgets = [forms.TextInput()] * 5
+        widgets = [forms.TextInput(attrs={"max-length": 1})] * 5
         super().__init__(widgets)
 
     def decompress(self, value=""):
@@ -64,23 +64,27 @@ class AttemptMultiValueField(forms.fields.MultiValueField):
 class AttemptClassForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.player = kwargs.pop("player")
+        self.type = kwargs.pop("type")
         super().__init__(*args, **kwargs)
 
     def clean(self):
         cleaned_data = super().clean()
+        # One input has more than 1 char
         characters = cleaned_data.get("attempts")
         attempt = "".join(characters)
-        if len(attempt) < 5:
+        if len(attempt) != 5:
             raise forms.ValidationError("Word must be length of 5")
         elif not Word.valid_word(attempt):
             raise forms.ValidationError(f"'{attempt}' not in word list")
-        else:
-            # instance referring to the Game object in creation!
-            self.instance.player = self.player
-            # self.instance.word = self.word
-            self.instance.tries += 1
+
+        # instance referring to the Game object in creation!
+        if self.type == "create":
             self.instance.word = Word.todays_word()
-            return cleaned_data
+
+        self.instance.player = self.player
+        # self.instance.word = self.word
+        self.instance.tries += 1
+        return cleaned_data
 
     class Meta:
         model = Game
