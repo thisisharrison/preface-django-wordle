@@ -1,0 +1,40 @@
+/* Apply custom font face */
+
+/* Reference */
+/* font-weight: 100;
+font-weight: 200;
+font-weight: 300;
+font-weight: 400;// normal
+font-weight: 500;
+font-weight: 600;
+font-weight: 700;// bold
+font-weight: 800;
+font-weight: 900; */
+
+/* Add others if you wish */
+
+@font-face {
+    font-family: GalanoGrotesque;
+    font-style: normal;
+    font-weight: 400;
+    src: url("../font/GalanoGrotesqueRegular.otf") format("opentype");
+}
+
+@font-face {
+    font-family: GalanoGrotesque;
+    font-style: normal;
+    font-weight: 500;
+    src: url("../font/GalanoGrotesqueMedium.otf") format("opentype");
+}
+
+@font-face {
+    font-family: GalanoGrotesque;
+    font-weight: 600;
+    src: url("../font/GalanoGrotesqueSemiBold.otf") format("opentype");
+}
+
+@font-face {
+    font-family: GalanoGrotesque;
+    font-weight: 700;
+    src: url("../font/GalanoGrotesqueBold.otf") format("opentype");
+}
