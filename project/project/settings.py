@@ -43,7 +43,7 @@ DEBUG = env("DEBUG")
 # have ALLOWED_HOSTS = ['*'] when the app is deployed. If you deploy a Django
 # app not on App Engine, make sure to set an appropriate host here.
 ALLOWED_HOSTS = ["*", "localhost", "127.0.0.1", "preface-django-wordle.herokuapp"]
-
+CSRF_TRUSTED_ORIGINS = ["https://preface-django-wordle.herokuapp.com"]
 # Application definition
 
 INSTALLED_APPS = [
