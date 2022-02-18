@@ -9,7 +9,7 @@ from wordle_word.models import Word
 
 from wordle_app import forms
 from .models import Game
-from .utils import transform_data, next_game_time, is_same_date
+from .utils import keyboard_to_list, transform_data, next_game_time, is_same_date
 import pdb
 
 # Create your views here.
@@ -36,7 +36,7 @@ def homepage(request):
 
 class GameCreateView(CreateView):
     model = Game
-    template_name = "wordle_app/table_form.html"
+    template_name = "wordle_app/index.html"
     form_class = forms.AttemptClassForm
 
     def get_form_kwargs(self):
@@ -50,6 +50,13 @@ class GameCreateView(CreateView):
     def form_valid(self, form):
         form.instance.player = self.request.user
         return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["attempts_list"] = None
+        context["keyboard_list"] = keyboard_to_list()
+        context["remaining_attempts"] = range(6)
+        return context
 
 
 class GameUpdateViewV2(UpdateView):

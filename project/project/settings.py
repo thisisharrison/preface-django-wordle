@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.forms",
     "wordle_app",
     "wordle_account",
     "wordle_word",
@@ -89,6 +90,10 @@ TEMPLATES = [
         },
     },
 ]
+
+# Need FORM_RENDERER and add django.forms to INSTALLED_APPS to use custom Widgets
+# https://stackoverflow.com/questions/45844032/django-templatedoesnotexist-in-case-of-a-custom-widget
+FORM_RENDERER = "django.forms.renderers.TemplatesSetting"
 
 WSGI_APPLICATION = "project.wsgi.application"
 

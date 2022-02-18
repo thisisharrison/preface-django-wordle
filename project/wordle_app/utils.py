@@ -46,7 +46,7 @@ def attempts_to_unique_dict(attempts_list):
     return reduce(add_to_dict, attempts_list, {})
 
 
-def keyboard_to_list(unique_dict):
+def keyboard_to_list(unique_dict={}):
     KEYBOARD = ["qwertyuiop", "asdfghjkl", "zxcvbnm"]
     keyboard_list = []
 

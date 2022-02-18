@@ -1,7 +1,10 @@
 from os import name
 import pdb
 from django import forms
+from django.forms.utils import flatatt
 from django.core.validators import RegexValidator
+from django.utils.safestring import mark_safe
+from django.template import loader
 
 from .models import Game
 from wordle_word.models import Word
@@ -33,10 +36,21 @@ class AttemptForm(forms.Form):
 
 
 # Advanced Version
+# Define the Table Data component (widget) to use in Multi Value Widget
+class MyWidget(forms.Widget):
+    template_name = "wordle_app/widget_template.html"
+
+    def render(self, name, value, attrs=None):
+        super().render(name, value, attrs)
+        context = self.get_context(name, value, attrs)
+        template = loader.get_template(self.template_name).render(context)
+        return mark_safe(template)
+
+
 # Define the widget for MultiValue form to use. Otherwise, default is a single Text Input field
 class AttemptMultiValueWidget(forms.MultiWidget):
     def __init__(self, attrs=None):
-        widgets = [forms.TextInput(attrs={"max-length": 1})] * 5
+        widgets = [MyWidget()] * 5
         super().__init__(widgets)
 
     def decompress(self, value=""):
@@ -88,8 +102,6 @@ class AttemptClassForm(forms.ModelForm):
             cleaned_data["attempts"] = previous + "," + attempt
 
         self.instance.tries += 1
-
-        pdb.set_trace()
 
         return cleaned_data
 
