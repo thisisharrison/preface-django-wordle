@@ -71,9 +71,10 @@ class GameUpdateViewV2(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        obj = self.get_object()
 
         word = self.object.word.word
-        attempts = self.object.attempts
+        attempts = obj.attempts if context["form"].errors else self.object.attempts
         won = self.object.won
         [attempts_list, keyboard_list] = transform_data(word, attempts)
         context["attempts_list"] = attempts_list
@@ -82,6 +83,13 @@ class GameUpdateViewV2(UpdateView):
             range(6 - len(attempts_list)) if len(attempts_list) >= 1 else range(6)
         )
         context["won"] = won
+
+        # was previously filled with wrong inputs
+        if context["form"].is_bound and context["form"].errors:
+            pass
+        # no errors and not bound
+        else:
+            context["form"] = self.form_class(type="update")
 
         return context
 

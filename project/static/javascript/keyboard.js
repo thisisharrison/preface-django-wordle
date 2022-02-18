@@ -5,12 +5,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const key = event.key
         const inputsArray = Array.from(inputs)
         if (regex.test(key)) {
-            const input = inputsArray.find(input => input.name.includes('char') && input.value === '')
+            const input = inputsArray.find(input => input.name.includes('attempts_') && input.value === '')
             if (!input) return
             input.focus()
             input.value = key
         } else if (key === "Backspace") {
-            const input = Object.assign([], inputsArray).reverse().find(input => input.name.includes('char') && input.value !== '')
+            const input = Object.assign([], inputsArray).reverse().find(input => input.name.includes('attempts_') && input.value !== '')
             input.focus()
             input.value = ""
         } else if (key === "Enter") {
