@@ -38,7 +38,7 @@ class AttemptForm(forms.Form):
 # Advanced Version
 # Define the Table Data component (widget) to use in Multi Value Widget
 class MyWidget(forms.Widget):
-    template_name = "wordle_app/widget_template.html"
+    template_name = "wordle_app/table/widget_template.html"
 
     def render(self, name, value, attrs=None):
         super().render(name, value, attrs)
