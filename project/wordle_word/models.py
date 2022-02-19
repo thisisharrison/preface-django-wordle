@@ -3,7 +3,8 @@ from django.db import models
 from django.utils import timezone, formats
 from random import shuffle
 import pdb
-import csv
+
+from .utils import load_word_list
 
 
 # Create your models here.
@@ -13,27 +14,15 @@ class Word(models.Model):
     word = models.CharField(unique=True, max_length=5)
     published_at = models.DateField(null=True)
 
+    _word_list = load_word_list()
+
     def __str__(self) -> str:
         return f"{self.word} ({formats.date_format(self.published_at, 'SHORT_DATE_FORMAT') if self.published_at else ''})"
 
+    # TODO: Use redis or other cache to optimize in the future
     @classmethod
     def valid_word(cls, word):
-        try:
-            obj = cls.objects.get(word__exact=word)
-        except cls.DoesNotExist:
-            obj = None
-        return obj
-
-    @classmethod
-    def load_word_list(cls):
-        file = open("wordle_word/seed.csv")
-        csvreader = csv.reader(file)
-        words = []
-        for row in csvreader:
-            words.append(row[0])
-
-        cls.word_list = words
-        return words
+        return word in cls._word_list
 
     @staticmethod
     def todays_word():
@@ -42,13 +31,12 @@ class Word(models.Model):
         return word
 
     # You will be fired if you use this!!!
-    # But when you do use it, expect it to take some time
     @staticmethod
     def dangerously_reset():
         # Delete all records
         Word.objects.all().delete()
 
-        words = Word.load_word_list()
+        words = load_word_list()
         shuffle(words)
 
         # Get today's date and increment by 1
