@@ -1,10 +1,8 @@
 from django.conf import settings
-from django.http import Http404, HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from wordle_app import forms
 from .models import Game
@@ -29,7 +27,7 @@ def homepage(request, exception=None):
     return redirect("wordle_app:game", game.id)
 
 
-class GamePermissionMixin(UserPassesTestMixin):
+class GameOwnerMixin(UserPassesTestMixin):
     redirect_field_name = "wordle_app:homepage"
 
     def handle_no_permission(self):
@@ -68,7 +66,7 @@ class GameCreateView(CreateView):
         return context
 
 
-class GameUpdateView(LoginRequiredMixin, GamePermissionMixin, UpdateView):
+class GameUpdateView(LoginRequiredMixin, GameOwnerMixin, UpdateView):
     model = Game
     template_name = "wordle_app/index.html"
     form_class = forms.AttemptClassForm

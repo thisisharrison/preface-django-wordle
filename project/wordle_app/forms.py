@@ -1,10 +1,11 @@
-from os import name
 import pdb
 from django import forms
-from django.forms.utils import flatatt
-from django.core.validators import RegexValidator
 from django.utils.safestring import mark_safe
 from django.template import loader
+from django.utils import timezone
+
+from wordle_app.utils import is_same_date
+
 
 from .models import Game
 from wordle_word.models import Word
@@ -100,6 +101,9 @@ class AttemptClassForm(forms.ModelForm):
         if self.type == "update":
             previous = self.instance.attempts
             cleaned_data["attempts"] = previous + "," + attempt
+
+            if not is_same_date(self.instance.word.published_at, timezone.localtime()):
+                raise forms.ValidationError(f"This game is over! Play today's word!")
 
         self.instance.tries += 1
 

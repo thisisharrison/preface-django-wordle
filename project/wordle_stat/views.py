@@ -1,6 +1,6 @@
 import pdb
 from django.shortcuts import render, redirect
-from django.utils import timezone, timesince
+from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
@@ -9,12 +9,13 @@ from wordle_app.utils import is_same_date, next_game_time, transform_data
 
 
 # Create your views here.
+# https://nerdschalk.com/average-wordle-score-and-stats-what-are-they-and-how-to-find-some/
 
 
 @login_required(login_url="/account/login/")
 def stat(request):
     stat_context = {
-        "distribution": {
+        "distribution": {  # How many words guesses you used how many times in all the WINNING games you have played thus far.
             1: 0,
             2: 0,
             3: 0,
@@ -22,37 +23,49 @@ def stat(request):
             5: 0,
             6: 0,
         },
-        "played": 0,
-        "win_rate": 0,
-        "current_streak": 0,
-        "max_streak": 0,
+        "played": 0,  # Total number of games you have played (WIN or LOSE or FORFEIT)
+        "win_rate": 0,  # How many games did you win out of the total number of games you played, as a percentage
+        "current_streak": 0,  # How many games have you WON successfully in a row.
+        "max_streak": 0,  # Longest current streak you have had ever since you started playing Wordle
     }
 
-    player = Game.objects.filter(player__exact=request.user.id).exclude(won__isnull=True)
-    stat_context["played"] = player.count()
+    """ GET TOTAL PLAYED """
+    games = request.user.games.all().order_by("-created_at")
+    stat_context["played"] = games.count()
 
+    # No game history
     if stat_context["played"] == 0:
         messages.add_message(request, messages.ERROR, "'No game stats'")
         return redirect("wordle_app:homepage")
 
-    won = player.filter(won=True)
+    """ GET WIN RATE """
+    won = games.filter(won=True)
     stat_context["win_rate"] = (won.count() / stat_context["played"]) * 100
 
+    """ GET DISTRIBUTION """
     # https://stackoverflow.com/questions/37205793/django-values-list-vs-values
-    wins = list(won.values_list("tries", flat=True))
+    tries = list(won.values_list("tries", flat=True))
     max_value = 0
     for k in stat_context["distribution"]:
-        stat_context["distribution"][k] = wins.count(k)
-        max_value = max(stat_context["distribution"][k], max_value)
+        stat_context["distribution"][k] = tries.count(k)
+    max_value = max(stat_context["distribution"].values())
 
-    streaks = list(won.values_list("created_at", flat=True).order_by("-created_at"))
+    streaks = list(won.values_list("created_at", flat=True))
 
-    if len(streaks) == 0 or  not is_same_date(streaks[0], timezone.localtime()):
+    # Have not won a game, current streak is 0
+    if len(streaks) == 0:
+        stat_context["current_streak"] = 0
+    elif (
+        is_same_date(games[0].created_at, timezone.localdate()) and games[0].won == False
+    ):
         stat_context["current_streak"] = 0
     else:
         for i, streak in enumerate(streaks):
             if i == 0:
-                stat_context["current_streak"] += 1
+                if (timezone.localtime() - streak).days > 1:
+                    break
+                else:
+                    stat_context["current_streak"] += 1
 
             elif (streaks[i - 1] - streak).days == 1:
                 stat_context["current_streak"] += 1
@@ -60,20 +73,24 @@ def stat(request):
             else:
                 break
 
-    runner = 0
-    max_count = 0
+    # Have not won a game, max streak is 0
+    if len(streaks) == 0:
+        stat_context["max_streak"] = 0
+    else:
+        runner = 0
+        max_count = 0
 
-    for i, el in enumerate(streaks):
-        if i == 0:
-            runner += 1
-        elif (streaks[i - 1] - el).days == 1:
-            runner += 1
-        else:
-            max_count = runner if runner > max_count else max_count
-            runner = 1
+        for i, el in enumerate(streaks):
+            if i == 0:
+                runner += 1
+            elif (streaks[i - 1] - el).days == 1:
+                runner += 1
+            else:
+                max_count = runner if runner > max_count else max_count
+                runner = 1
 
-    max_count = runner if runner > max_count else max_count
-    stat_context["max_streak"] = max_count
+        max_count = runner if runner > max_count else max_count
+        stat_context["max_streak"] = max_count
 
     try:
         last_game = Game.objects.filter(player=request.user.id).latest("created_at")
