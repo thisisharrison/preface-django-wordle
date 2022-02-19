@@ -29,11 +29,13 @@
     const msgBox = document.createElement('p')
     toast.appendChild(msgBox)
 
+    let timer
+
     if (typeof(data) === 'number') {
         msgBox.innerText = `Next wordle in ...`
         const prettyTime = (num) => num < 10 ? '0' + num : num
 
-        const timer = window.setInterval(() => {
+        timer = window.setInterval(() => {
             data = data - 1
             const hr = prettyTime(Math.floor((data % (60 * 60 * 24)) / (60 * 60)));
             const min = prettyTime(Math.floor((data % (60 * 60)) / (60)));
@@ -54,7 +56,7 @@
         const toast = document.querySelector('.toast')
         document.body.removeChild(toast)
         if (timer) clearInterval(timer)
-    }, 6000)
+    }, 5000)
 </script>
 {% endif %}
 

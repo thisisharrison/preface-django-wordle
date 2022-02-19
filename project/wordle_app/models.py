@@ -29,7 +29,7 @@ class Game(models.Model):
     def get_absolute_url(self):
         from django.urls import reverse
 
-        return reverse("wordle_app:gameV2", kwargs={"pk": self.pk})
+        return reverse("wordle_app:game", kwargs={"pk": self.pk})
 
     def is_valid(self):
         diff = timezone.localdate() - self.created_at.date()

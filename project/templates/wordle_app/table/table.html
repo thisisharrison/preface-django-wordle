@@ -1,6 +1,6 @@
 <table>
     {% if attempts_list %}
-    <!--  -->
+    
     {% for attempt in attempts_list %}
     <tr>
         {% for char, class in attempt %}
@@ -12,29 +12,29 @@
         {% endfor %}
     </tr>
     {% endfor %}
-    <!--  -->
+    
     {% endif %}
-    <!--  -->
+    
     {% if remaining_attempts %}
-    <!--  -->
+    
     {% for row in remaining_attempts %}
     <tr>
-        {% if row is 0 and not won %}
-        <!--  -->
-        {% include "wordle_app/table/table_formV2.html" %}
-        <!--  -->
+        {% if row is 0 %}
+        
+        {% include "wordle_app/table/table_form.html" %}
+        
         {% else %}
-        <!--  -->
+        
         {% for i in '01234'|make_list %}
         <td>
             <div class="tile"></div>
         </td>
         {% endfor %}
-        <!--  -->
+        
         {% endif %}
     </tr>
     {% endfor %}
-    <!--  -->
+    
     {% endif %}
-    <!--  -->
+    
 </table>

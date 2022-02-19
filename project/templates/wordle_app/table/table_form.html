@@ -1,10 +1,17 @@
-<form action="{% url 'wordle_app:attempt' game.id %}" method="post">
-    {% csrf_token %} {% for i in '01234'|make_list %}
-    <td>
-        <div class="tile">
-            <input type="text" name="char{{i}}" value="" maxlength="1" />
-        </div>
-    </td>
-    {% endfor %}
+{% if form.non_field_errors %}
+<div class="toast">{% for error in form.non_field_errors %} {{error}} {% endfor %}</div>
+{% endif %}
+
+<!-- Render by JS -->
+{% comment %} {% if messages %}
+
+<div class="toast">{% for message in messages %} {{message}} {% endfor %}</div>
+
+{% endif %} {% endcomment %}
+
+<form method="post">
+    {% csrf_token %}
+    <!--  -->
+    {% for field in form %} {{field}} {% endfor %}
     <input type="submit" style="visibility: hidden; height: 0px; position: absolute; top: 0; right: 0" />
 </form>

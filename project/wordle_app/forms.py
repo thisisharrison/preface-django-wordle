@@ -91,7 +91,7 @@ class AttemptClassForm(forms.ModelForm):
             raise forms.ValidationError("Word must be length of 5")
 
         if not Word.valid_word(attempt):
-            raise forms.ValidationError(f"'{attempt}' not in word list")
+            raise forms.ValidationError(f"'{attempt.upper()}' not in word list")
 
         # instance referring to the Game object in creation!
         if self.type == "create":
@@ -102,6 +102,13 @@ class AttemptClassForm(forms.ModelForm):
             cleaned_data["attempts"] = previous + "," + attempt
 
         self.instance.tries += 1
+
+        # won
+        if self.instance.word.word == attempt:
+            self.instance.won = True
+        # lose
+        elif self.instance.tries == 6:
+            self.instance.won = False
 
         return cleaned_data
 

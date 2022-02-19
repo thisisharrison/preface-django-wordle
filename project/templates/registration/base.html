@@ -8,6 +8,10 @@
     }
 </style>
 
+{% if messages %}
+<div class="toast">{% for message in messages %} {{message}} {% endfor %}</div>
+{% endif %}
+
 <div class="placeholder"></div>
 {% block content %}
 <!-- Auth form -->

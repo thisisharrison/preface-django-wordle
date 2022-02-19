@@ -17,35 +17,38 @@ class Word(models.Model):
         return f"{self.word} ({formats.date_format(self.published_at, 'SHORT_DATE_FORMAT') if self.published_at else ''})"
 
     @classmethod
-    def todays_word(cls):
-        today = timezone.localdate()
-        word = Word.objects.get(published_at__exact=today)
-        return word
-
-    @classmethod
     def valid_word(cls, word):
         try:
-            obj = Word.objects.get(word__exact=word)
-        except Word.DoesNotExist:
+            obj = cls.objects.get(word__exact=word)
+        except cls.DoesNotExist:
             obj = None
         return obj
 
-    # You will be fired if you use this!!!
-    # But when you do use it, expect it to take some time
     @classmethod
-    def dangerously_reset(cls):
-        # Delete all records
-        Word.objects.all().delete()
-
-        # Seed database
+    def load_word_list(cls):
         file = open("wordle_word/seed.csv")
         csvreader = csv.reader(file)
-
-        # To shuffle save words to list first
         words = []
         for row in csvreader:
             words.append(row[0])
 
+        cls.word_list = words
+        return words
+
+    @staticmethod
+    def todays_word():
+        today = timezone.localdate()
+        word = Word.objects.get(published_at__exact=today)
+        return word
+
+    # You will be fired if you use this!!!
+    # But when you do use it, expect it to take some time
+    @staticmethod
+    def dangerously_reset():
+        # Delete all records
+        Word.objects.all().delete()
+
+        words = Word.load_word_list()
         shuffle(words)
 
         # Get today's date and increment by 1

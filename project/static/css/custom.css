@@ -155,6 +155,21 @@ h5 {
     border-radius: 4px;
     font-weight: 700;
     box-shadow: 1px 1px 1px 1px rgb(64 64 64 / 10%);
+    -webkit-animation: fadeinout 6s ease-in-out forwards;
+    animation: fadeinout 6s ease-in-out forwards;
+    opacity: 0;
+}
+
+@-webkit-keyframes fadeinout {
+    10% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeinout {
+    10% {
+        opacity: 1;
+    }
 }
 
 .auth-form,

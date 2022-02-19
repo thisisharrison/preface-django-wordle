@@ -23,3 +23,6 @@ urlpatterns = [
     path("account/", include("django.contrib.auth.urls")),
     path("stat/", include("wordle_stat.urls")),
 ]
+
+handler404 = "wordle_app.views.homepage"
+handler500 = "wordle_app.views.homepage"
