@@ -2,6 +2,7 @@ from functools import reduce
 from collections import OrderedDict
 from datetime import datetime, timedelta
 from django.utils import timezone
+from datetime import datetime
 import pdb
 
 
@@ -79,7 +80,8 @@ def next_game_time():
 
 
 def is_same_date(date1, date2):
-    date1 = timezone.localtime(date1)
+    if type(date1) == datetime:
+        date1 = timezone.localtime(date1)
     return (
         date1.year == date2.year and date1.month == date2.month and date1.day == date2.day
     )
