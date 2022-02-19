@@ -1,8 +1,11 @@
+import os
 import csv
+
+DIR = os.path.dirname(os.path.realpath(__file__))
 
 
 def load_word_list():
-    file = open("wordle_word/seed.csv")
+    file = open(os.path.join(DIR, "seed.csv"))
     csvreader = csv.reader(file)
     words = []
     for row in csvreader:

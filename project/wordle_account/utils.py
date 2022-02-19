@@ -1,8 +1,11 @@
+import os
 import csv
+
+DIR = os.path.dirname(os.path.realpath(__file__))
 
 
 def load_preface_list():
-    file = open("wordle_account/seed.csv")
+    file = open(os.path.join(DIR, "seed.csv"))
     csvreader = csv.reader(file)
     members = []
     for row in csvreader:
