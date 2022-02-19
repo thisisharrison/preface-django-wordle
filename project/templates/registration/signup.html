@@ -1,16 +1,11 @@
-<!-- Extend template -->
 {% extends 'registration/base.html' %}
-<!-- Block begins -->
 {% block content %}
 <div class="auth-form">
     <h2>Sign Up</h2>
 
     <form method="post">
-        <!-- token -->
         {% csrf_token %}
-        <!-- form -->
         {{form.as_p}}
-        <!-- submit -->
         <p>
             <input type="submit" value="Sign Up" />
         </p>
@@ -18,5 +13,4 @@
     <br />
     <a href="{% url 'login' %}">Already registered? Login to play</a>
 </div>
-<!-- End block -->
 {% endblock %}

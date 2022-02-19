@@ -1,23 +1,21 @@
-<!-- Extend template -->
-{% extends 'registration/base.html' %}
-<!-- Block begins -->
+{% extends 'registration/base.html' %} 
+
 {% block content %}
 
 <div class="auth-form">
     <h2>Log In</h2>
 
     <form method="post">
-        <!-- token -->
-        {% csrf_token %}
-        <!-- form -->
+        {% csrf_token %} 
         {{form.as_p}}
-        <!-- submit -->
         <p>
             <input type="submit" value="Log In" />
         </p>
     </form>
     <br />
-    <a href="{% url 'signup' %}">Signup to play</a>
+    <div style="display: inline-flex; justify-content: space-between">
+        <a href="{% url 'signup' %}">Signup to play</a>
+        <a href="{% url 'random' %}">Random User</a>
+    </div>
 </div>
-<!-- End block -->
 {% endblock %}
