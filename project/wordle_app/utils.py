@@ -79,6 +79,7 @@ def next_game_time():
 
 
 def is_same_date(date1, date2):
+    date1 = timezone.localtime(date1)
     return (
         date1.year == date2.year and date1.month == date2.month and date1.day == date2.day
     )
