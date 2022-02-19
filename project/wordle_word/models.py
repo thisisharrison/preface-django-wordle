@@ -42,7 +42,7 @@ class Word(models.Model):
         # Get today's date and increment by 1
         entries = []
         start_date = timezone.localdate()
-        for i, word in enumerate(words[:10]):
+        for i, word in enumerate(words[0:8000]):
             published_date = start_date + timedelta(days=i)
             entry = Word(word=word, published_at=published_date)
             entries.append(entry)
