@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import validate_email
 from django.utils import timezone
+from django.contrib.auth.hashers import make_password
 from django.db.models import Q
 from .utils import load_preface_list
 from random import randint
@@ -55,10 +56,16 @@ class CustomUser(AbstractUser):
             lambda name: CustomUser(
                 username=name,
                 email=f"{name}@preface.com",
-                password="prefaceCoding",
+                password=make_password("prefaceCoding"),
             ),
             members,
         )
         CustomUser.objects.bulk_create(entries)
 
         print("seeded preface users")
+
+    @staticmethod
+    def delete_preface_users():
+        CustomUser.objects.filter(email__icontains="preface.com").delete()
+
+        print("deleted preface users")
