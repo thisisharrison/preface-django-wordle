@@ -47,33 +47,14 @@ python manage.py collectstatic
 python manage.py runserver
 ```
 
-In your browser, go to http://localhost:8000.
+5. Seed your `db.sqlite3`
 
-## Deployment
+    ```shell
+    python manage.py createsuperuser
+    python manage.py shell
+    >> from wordle_app.seed import StartGame
+    >> StartGame.reset_game()
+    ```
 
-1. Follow [Google Cloud Guide](https://cloud.google.com/python/django/flexible-environment). Following are some key points to highlight:
+6. Run server with `python manage.py runserver`. In your browser, go to http://localhost:8000.
 
-2. Add missing secrets to `.env` before for local testing:
-
-```
-echo DATABASE_URL=postgres://DATABASE_USERNAME:DATABASE_PASSWORD@//cloudsql/PROJECT_ID:REGION:INSTANCE_NAME/DATABASE_NAME >> .env
-echo GS_BUCKET_NAME=PROJECT_ID_MEDIA_BUCKET >> .env
-```
-
-3. Copy these secrets to GCP Secret Manager
-
-```
-gcloud secrets create django_settings --data-file .env
-```
-
-4. Run these before developing with Cloud SQL Auth proxy:
-
-```
-./cloud_sql_proxy -instances="PROJECT_ID:REGION:INSTANCE_NAME"=tcp:5432
-export GOOGLE_CLOUD_PROJECT=PROJECT_ID
-export USE_CLOUD_SQL_AUTH_PROXY=true
-
-python manage.py runserver
-```
-
-5. `requirements.txt` has no versions. App Engine will pip install based on Python 3.7.
