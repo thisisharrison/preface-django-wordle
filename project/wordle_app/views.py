@@ -56,6 +56,8 @@ class GameCreateView(CreateView):
             messages.add_message(self.request, messages.ERROR, "Log In to play!")
             return redirect("login")
         form.instance.player = self.request.user
+        if self.request.user.games.latest("created_at").word == form.instance.word:
+            return redirect("wordle_app:homepage")
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
