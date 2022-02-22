@@ -67,7 +67,7 @@ def stat(request):
                 else:
                     stat_context["current_streak"] += 1
 
-            elif (streaks[i - 1] - streak).days == 1:
+            elif ((streaks[i - 1]).day - streak.day) == 1:
                 stat_context["current_streak"] += 1
 
             else:
@@ -83,7 +83,7 @@ def stat(request):
         for i, el in enumerate(streaks):
             if i == 0:
                 runner += 1
-            elif (streaks[i - 1] - el).days == 1:
+            elif (streaks[i - 1].day - el.day) == 1:
                 runner += 1
             else:
                 max_count = runner if runner > max_count else max_count
